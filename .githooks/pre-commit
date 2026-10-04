@@ -1,0 +1,6 @@
+#!/bin/sh
+# pre-commit: block commit on unformatted files. Fix: pnpm format, re-stage.
+files=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(html|css|js|json|webmanifest)$' || true)
+[ -z "$files" ] && exit 0
+# shellcheck disable=SC2086
+pnpm exec prettier --check $files

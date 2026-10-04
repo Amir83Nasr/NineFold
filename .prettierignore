@@ -1,0 +1,11 @@
+# committed bundle, not source — never reformat
+game.js
+# generated / third-party output
+vendor/
+www/
+android/
+ios/
+node_modules/
+# machine-generated or free-form notes — don't gate commits on style
+pnpm-lock.yaml
+TODO.md

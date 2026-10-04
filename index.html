@@ -14,10 +14,7 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Pouya Eti Arcade" />
-    <meta
-      property="og:title"
-      content="NINEFOLD — a 3D Sudoku Odyssey · made by Claude Opus 5.5"
-    />
+    <meta property="og:title" content="NINEFOLD — a 3D Sudoku Odyssey · made by Claude Opus 5.5" />
     <meta
       property="og:description"
       content="Sudoku leaves the page: 81 levels across nine realms, true 3D cube puzzles you turn and slice, Killer sums, memory and speed challenges, daily puzzles and a technique academy. Built entirely by Claude Opus 5.5. Free in the browser."
@@ -39,8 +36,11 @@
       crossorigin
     />
     <link rel="stylesheet" href="app.css" />
+    <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" type="image/png" href="assets/icons/icon-180.png" />
     <link rel="apple-touch-icon" href="assets/icons/icon-180.png" />
+    <script src="vendor/capacitor.js"></script>
+    <script src="vendor/capacitor-preferences.js"></script>
   </head>
   <body>
     <canvas id="scene"></canvas>
@@ -54,6 +54,11 @@
     <script>
       window.NF_WORKER = "gen.worker.js";
       window.NF_BUILD = "202609261033";
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch(() => {});
+        });
+      }
     </script>
     <script type="module" src="game.js"></script>
   </body>

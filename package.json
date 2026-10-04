@@ -1,0 +1,22 @@
+{
+  "name": "ninefold",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "www": "rm -rf www && mkdir -p www && cp index.html game.js app.css sw.js manifest.webmanifest www/ && cp -R assets vendor www/",
+    "sync:android": "pnpm www && pnpm exec cap sync android",
+    "open:android": "pnpm exec cap open android",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "vendor": "mkdir -p vendor && cp node_modules/@capacitor/core/dist/capacitor.js vendor/capacitor.js && cp node_modules/@capacitor/preferences/dist/plugin.js vendor/capacitor-preferences.js"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/preferences": "^8.0.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
+    "prettier": "^3.9.9"
+  }
+}

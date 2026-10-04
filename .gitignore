@@ -1,0 +1,60 @@
+# ninefold — static browser game + capacitor shell
+# ─── RUNTIME / SESSION STATE ──────────────────────────────
+# local-only overrides (never commit)
+*.local
+
+# ─── LOGS / HISTORY / TELEMETRY ───────────────────────────
+*.log
+logs/
+
+# ─── CACHE / DOWNLOADED ARTIFACTS ─────────────────────────
+.vite/
+.cache/
+.parcel-cache/
+*.tsbuildinfo
+
+# ─── BUILD / DIST ─────────────────────────────────────────
+dist/
+build/
+out/
+www/
+android/
+ios/
+*.apk
+*.aab
+*.ipa
+
+# ─── DEPENDENCIES ─────────────────────────────────────────
+node_modules/
+.pnpm-store/
+package-lock.json
+yarn.lock
+npm-debug.log*
+pnpm-debug.log*
+
+# ─── BACKUPS ──────────────────────────────────────────────
+*.bak
+*.orig
+*.rej
+*~
+
+# ─── SECRETS / CREDENTIALS / TOKENS ───────────────────────
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+
+# ─── OS / EDITOR CLUTTER ──────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── ! ────────────────────────────────────────────────────
+# re-include exceptions only (negations live here, nowhere else)
+!.env.example

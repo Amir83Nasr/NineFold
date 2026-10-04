@@ -96,11 +96,7 @@ button {
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  background: radial-gradient(
-    ellipse 75% 70% at 50% 48%,
-    #03050c00 45%,
-    #03050c8c
-  );
+  background: radial-gradient(ellipse 75% 70% at 50% 48%, #03050c00 45%, #03050c8c);
 }
 
 #ui > * {
@@ -298,8 +294,8 @@ button {
 }
 
 .game {
-  padding: calc(10px + var(--safe-t)) calc(12px + var(--safe-r))
-    calc(12px + var(--safe-b)) calc(12px + var(--safe-l));
+  padding: calc(10px + var(--safe-t)) calc(12px + var(--safe-r)) calc(12px + var(--safe-b))
+    calc(12px + var(--safe-l));
   gap: 10px;
 }
 
@@ -807,8 +803,8 @@ button {
 }
 
 .page {
-  padding: calc(14px + var(--safe-t)) calc(16px + var(--safe-r))
-    calc(16px + var(--safe-b)) calc(16px + var(--safe-l));
+  padding: calc(14px + var(--safe-t)) calc(16px + var(--safe-r)) calc(16px + var(--safe-b))
+    calc(16px + var(--safe-l));
   gap: 14px;
 }
 
@@ -2842,8 +2838,7 @@ html.reduce-motion #grain {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--accent, var(--gold-2));
-  text-shadow: 0 0 18px
-    color-mix(in srgb, var(--accent, #e3b456) 50%, transparent);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent, #e3b456) 50%, transparent);
 }
 
 .lvl-intro .li-name {
@@ -2859,12 +2854,7 @@ html.reduce-motion #grain {
   display: block;
   width: 120px;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--accent, var(--gold)),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, var(--accent, var(--gold)), transparent);
   transform-origin: center;
   animation: ruleIn 0.9s 0.15s var(--ease-out) both;
 }
@@ -3880,8 +3870,7 @@ html.reduce-motion #grain {
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--accent, var(--gold-2));
-  text-shadow: 0 0 18px
-    color-mix(in srgb, var(--accent, #e3b456) 60%, transparent);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent, #e3b456) 60%, transparent);
 }
 
 .restored-banner .rb-name {
@@ -3899,12 +3888,7 @@ html.reduce-motion #grain {
   display: block;
   width: 160px;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--accent, var(--gold)),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, var(--accent, var(--gold)), transparent);
   animation: ruleIn 1s 0.2s var(--ease-out) both;
 }
 

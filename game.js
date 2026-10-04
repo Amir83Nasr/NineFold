@@ -37957,6 +37957,34 @@ var lu = class {
     try {
       navigator.storage?.persist?.();
     } catch {}
+    this._ready = this._loadNative();
+  }
+  get ready() {
+    return this._ready;
+  }
+  _native() {
+    try {
+      return window.capacitorPreferences?.Preferences || null;
+    } catch {
+      return null;
+    }
+  }
+  async _loadNative() {
+    let p = this._native();
+    if (!p) return;
+    try {
+      let { value: e } = await p.get({ key: tb });
+      if (e) {
+        let t = JSON.parse(e);
+        ((this.state = gp(gl(), t)),
+          t.settings &&
+            t.settings.audioCurve == null &&
+            ((this.state.settings.music =
+              t.settings.music > 0 ? gl().settings.music : 0),
+            (this.state.settings.audioCurve = 2)));
+        for (let i of this.listeners) i(this.state);
+      }
+    } catch {}
   }
   load() {
     try {
@@ -37975,8 +38003,13 @@ var lu = class {
   }
   save() {
     this.state.lastSeen = Date.now();
+    let raw;
     try {
-      localStorage.setItem(tb, JSON.stringify(this.state));
+      raw = JSON.stringify(this.state);
+      localStorage.setItem(tb, raw);
+    } catch {}
+    try {
+      this._native()?.set({ key: tb, value: raw ?? JSON.stringify(this.state) });
     } catch {}
     for (let e of this.listeners) e(this.state);
   }
