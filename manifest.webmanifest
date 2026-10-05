@@ -1,6 +1,6 @@
 {
-  "name": "NINEFOLD — 3D Sudoku",
-  "short_name": "NINEFOLD",
+  "name": "NineFold — 3D Sudoku",
+  "short_name": "NineFold",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",

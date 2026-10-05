@@ -48381,10 +48381,10 @@ function Lb(n, e, t) {
     r = Math.floor(e.time / 60),
     a = String(e.time % 60).padStart(2, "0");
   return [
-    `NINEFOLD ${n.title}`,
+    `NineFold ${n.title}`,
     `${i} ${s}  ${r}:${a}${e.hints ? ` \xB7 ${e.hints} hint${e.hints > 1 ? "s" : ""}` : " \xB7 no hints"}`,
     t > 1 ? `Streak ${t} days` : null,
-    "arcade-pouyaeti.fly.dev/arcade/ninefold/",
+    "amir83nasr.github.io/ninefold/",
   ].filter(Boolean).join(`
 `);
 }
@@ -52758,6 +52758,7 @@ var Cu = class {
       (this.screen = null),
       (this.screens = {}),
       this.applySettings(),
+      this.syncStatusBar(),
       (this.env.onFlash = () => this.audio.thunder?.()));
     let o = () => {
       (this.audio.unlock(),
@@ -52836,6 +52837,13 @@ var Cu = class {
         this.stage.setQuality(e.quality),
       (document.documentElement.dataset.digits = e.digitSize || "100"),
       document.documentElement.classList.toggle("lefty", !!e.leftHanded));
+  }
+  syncStatusBar() {
+    try {
+      window.capacitorStatusBar?.StatusBar?.setBackgroundColor?.({
+        color: "#070a14",
+      });
+    } catch {}
   }
   setRealm(e) {
     let t = e ? O0(e) : eu;
@@ -53232,7 +53240,7 @@ var Iu = class {
     (e.setRealm(0),
       (this.hero = new ku(e.stage, e.atlas)),
       (this.off = e.stage.onTick((c) => {
-        this.hero.t < 1.5 && this.hero.update(c);
+        this.hero.t < 2.3 && this.hero.update(c);
       })));
     let i = !t.progress.levels["r1-1"]?.done,
       s = xu(t),
@@ -53325,7 +53333,7 @@ var Iu = class {
           {
             class: "logo",
           },
-          "NINEFOLD",
+          "NineFold",
         ),
         y(
           "div",
@@ -53384,7 +53392,7 @@ var Iu = class {
           {
             class: "credit",
           },
-          "Made by Claude Opus 5.5 \xB7 Pouya Eti Arcade",
+          "Made by Claude Opus 5.5",
         ),
       )),
     )),
@@ -53461,7 +53469,7 @@ var Iu = class {
           {
             class: "r-title",
           },
-          "NINEFOLD 4",
+          "NineFold 4",
         ),
         i(
           te.music,
@@ -57082,7 +57090,7 @@ var Kb = {
           realm: i.realm || 1,
           hints: e.hintsUsed ?? e.hints,
         }),
-        o = `${r || "I"} solved this NINEFOLD ${i.title || "puzzle"} in ${dt(e.time)}. Can you beat it?`;
+        o = `${r || "I"} solved this NineFold ${i.title || "puzzle"} in ${dt(e.time)}. Can you beat it?`;
       try {
         navigator.share
           ? await navigator.share({
@@ -59361,7 +59369,7 @@ var $u = class {
             {
               class: "science",
             },
-            'These numbers measure how you play NINEFOLD: which techniques you can use, how you handle 3D boards, cage sums and memory modes, and how quickly you scan. Research consistently finds that people improve at what they practise and at closely related tasks. It has not established that puzzles raise general intelligence, improve everyday memory, or prevent cognitive decline, so we never claim they do. There is no "brain age" here, and no single combined score. A mix of puzzles, movement, sleep and time with people is the best-supported recipe for a sharp mind.',
+            'These numbers measure how you play NineFold: which techniques you can use, how you handle 3D boards, cage sums and memory modes, and how quickly you scan. Research consistently finds that people improve at what they practise and at closely related tasks. It has not established that puzzles raise general intelligence, improve everyday memory, or prevent cognitive decline, so we never claim they do. There is no "brain age" here, and no single combined score. A mix of puzzles, movement, sleep and time with people is the best-supported recipe for a sharp mind.',
           ),
           y("div", {
             style: {
@@ -59916,7 +59924,7 @@ var Wu = class {
             {
               class: "science",
             },
-            "NINEFOLD was designed and built by Claude Opus 5.5 for the Pouya Eti Arcade, after a research review of puzzle design, cognitive science and learning. Every puzzle is solvable by pure logic: no guessing is ever required. A note on the science: people reliably get better at what they practise, and this game is built to help you practise logic, 3D visualisation, cage arithmetic, memory for the board, and speed of scanning. Whether puzzles improve everyday memory, intelligence or long-term brain health has not been established, and we make no such claims. Photosensitivity: the game avoids flashing effects; turn on Reduce motion for a calmer experience.",
+            "NineFold was designed and built by Claude Opus 5.5, after a research review of puzzle design, cognitive science and learning. Every puzzle is solvable by pure logic: no guessing is ever required. A note on the science: people reliably get better at what they practise, and this game is built to help you practise logic, 3D visualisation, cage arithmetic, memory for the board, and speed of scanning. Whether puzzles improve everyday memory, intelligence or long-term brain health has not been established, and we make no such claims. Photosensitivity: the game avoids flashing effects; turn on Reduce motion for a calmer experience.",
           ),
           y(
             "div",
@@ -59924,7 +59932,7 @@ var Wu = class {
               class: "science credits",
             },
             y("b", {}, "Music. "),
-            "Ten original pieces written for NINEFOLD, composed from research on how music shapes feeling and focus. Instruments: the ",
+            "Ten original pieces written for NineFold, composed from research on how music shapes feeling and focus. Instruments: the ",
             y(
               "a",
               {
@@ -62069,8 +62077,8 @@ var im = 90,
         this.start());
     }
     async share(e) {
-      let t = `NINEFOLD Puzzle Rush: ${e.score} points, ${e.boards} boards cleared \u26A1
-https://arcade-pouyaeti.fly.dev/arcade/ninefold/`;
+      let t = `NineFold Puzzle Rush: ${e.score} points, ${e.boards} boards cleared \u26A1
+https://amir83nasr.github.io/ninefold/`;
       try {
         navigator.share
           ? await navigator.share({

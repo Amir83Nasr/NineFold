@@ -9,14 +9,16 @@
     "open:android": "pnpm exec cap open android",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "vendor": "mkdir -p vendor && cp node_modules/@capacitor/core/dist/capacitor.js vendor/capacitor.js && cp node_modules/@capacitor/preferences/dist/plugin.js vendor/capacitor-preferences.js"
+    "vendor": "mkdir -p vendor && cp node_modules/@capacitor/core/dist/capacitor.js vendor/capacitor.js && cp node_modules/@capacitor/preferences/dist/plugin.js vendor/capacitor-preferences.js && cp node_modules/@capacitor/status-bar/dist/plugin.js vendor/capacitor-status-bar.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",
     "@capacitor/core": "^8.5.2",
-    "@capacitor/preferences": "^8.0.1"
+    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/status-bar": "^8.0.4"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^8.5.2",
     "prettier": "^3.9.9"
   }

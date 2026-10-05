@@ -30,6 +30,7 @@ jobs:
           pnpm vendor
           pnpm www
           pnpm exec cap add android
+          pnpm exec capacitor-assets generate --android --iconBackgroundColor '#070a14' --iconBackgroundColorDark '#070a14' --splashBackgroundColor '#070a14' --splashBackgroundColorDark '#070a14'
           pnpm exec cap sync android
       - name: Build debug APK
         run: |

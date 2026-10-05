@@ -1,5 +1,5 @@
 // ── CACHE / OFFLINE ────────────────────────────────────────────
-const CACHE = "ninefold-v1";
+const CACHE = "ninefold-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -8,6 +8,7 @@ const ASSETS = [
   "./manifest.webmanifest",
   "./vendor/capacitor.js",
   "./vendor/capacitor-preferences.js",
+  "./vendor/capacitor-status-bar.js",
   "./assets/icons/icon-180.png",
   "./assets/icons/icon-512.png",
   "./assets/icons/icon-1024.png",
