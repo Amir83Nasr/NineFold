@@ -23,7 +23,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - uses: android-actions/setup-android@v3
       - name: Install deps
         run: pnpm install --frozen-lockfile
       - name: Stage web + add Android platform
