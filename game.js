@@ -30515,21 +30515,21 @@ function La(n) {
 }
 var Kh = {
     high: {
-      dpr: 2,
+      dpr: 1.75,
       bloom: !0,
-      samples: 4,
+      samples: 2,
       shadows: !0,
       particles: 1,
     },
     medium: {
-      dpr: 1.5,
+      dpr: 1.25,
       bloom: !0,
-      samples: 2,
+      samples: 0,
       shadows: !1,
-      particles: 0.6,
+      particles: 0.5,
     },
     mobile: {
-      dpr: 1.75,
+      dpr: 1.25,
       bloom: !1,
       samples: 0,
       shadows: !1,
@@ -30587,7 +30587,7 @@ var Yh = class {
       (this.key = new In(16773340, 1.35)),
       this.key.position.set(-6, 14, 7),
       (this.key.castShadow = this.q.shadows),
-      this.key.shadow.mapSize.set(2048, 2048),
+      this.key.shadow.mapSize.set(1024, 1024),
       (this.key.shadow.camera.left = -9),
       (this.key.shadow.camera.right = 9),
       (this.key.shadow.camera.top = 9),
@@ -30670,7 +30670,7 @@ var Yh = class {
     ((this.composer = new Wh(e, t)),
       (this.renderPass = new qh(this.scene, this.camera)),
       this.composer.addPass(this.renderPass),
-      (this.bloom = new Ia(new ae(256, 256), 0.3, 0.45, 0.92)),
+      (this.bloom = new Ia(new ae(128, 128), 0.3, 0.45, 0.92)),
       (this.bloom.enabled = this.q.bloom),
       this.composer.addPass(this.bloom),
       this.composer.addPass(new Xh()));
@@ -30694,6 +30694,8 @@ var Yh = class {
       this.size.set(e, t),
       (this.camera.aspect = e / t),
       this.camera.updateProjectionMatrix(),
+      (this.envPix = i),
+      this.env?.partU && (this.env.partU.uPix.value = i),
       this.frameInfo && ((this.snapNext = !0), this.applyFrame(!0)));
   }
   onTick(e) {
@@ -30717,7 +30719,7 @@ var Yh = class {
     this.forceFrames > 0 && this.forceFrames--;
     let t =
         e - (this.lastActive || 0) > (this.touch ? 2500 : 4e3) && !this.busy,
-      i = this.touch ? (this.dragging ? 0 : t ? 100 : 33) : t ? 50 : 16;
+      i = this.touch ? (this.dragging ? 0 : t ? 200 : 50) : t ? 50 : 16;
     if (i && e - (this.lastFrameAt || 0) < i - 3) return;
     ((this.lastFrameAt = e), this.clock.update());
     let s = Math.min(this.clock.getDelta(), 1 / 15);
@@ -30725,7 +30727,7 @@ var Yh = class {
       let r = (i || 16) / 1e3;
       if (
         ((this.slowT = s > r * 1.5 ? (this.slowT || 0) + s : 0),
-        this.slowT > 1.2 && this.renderer.getPixelRatio() > 1.01)
+        this.slowT > 0.6 && this.renderer.getPixelRatio() > 1.01)
       ) {
         let a = Math.max(1, this.renderer.getPixelRatio() - 0.5);
         ((this.maxDpr = a), (this.slowT = 0), this.resize());
@@ -34474,7 +34476,13 @@ var B0 = {
         });
     }
     update(e) {
+      if (e <= 0 || !this.items.length) return;
       this.t += e;
+      if (this.t - (this.lastCull || 0) > 0.25) {
+        this.lastCull = this.t;
+        this.group.visible = this.stage.camera.position.length() < 220;
+      }
+      if (!this.group.visible) return;
       for (let t of this.items) {
         let i = t.fade;
         ((t.fade = t.dying
@@ -34789,11 +34797,11 @@ var su = class {
       }),
       t =
         {
-          high: 6,
-          medium: 5,
-          mobile: 4,
-          low: 3,
-        }[this.stage.qualityName] || 6,
+          high: 4,
+          medium: 3,
+          mobile: 2,
+          low: 2,
+        }[this.stage.qualityName] || 4,
       i =
         this.stage.qualityName === "mobile" || this.stage.qualityName === "low",
       s = new bt({
@@ -35211,7 +35219,6 @@ var su = class {
     ((this.skyU.uTime.value = t),
       (this.seaU.uTime.value = t),
       (this.partU.uTime.value = t),
-      (this.partU.uPix.value = this.stage.renderer.getPixelRatio()),
       this.seaU.uCam.value.copy(this.stage.camera.position),
       this.sky.position.copy(this.stage.camera.position),
       (this.sea.position.x = this.stage.camera.position.x),
@@ -37246,7 +37253,8 @@ var au = class {
       }));
   }
   update(e, t) {
-    this.mat.uniforms.uPix.value = this.stage.renderer.getPixelRatio();
+    if (e <= 0 && this.n === 0) return;
+    this.mat.uniforms.uPix.value = this.stage.envPix || 1;
     let i = this.p,
       s = this.n;
     for (let c = 0; c < s; c++) {
@@ -37294,6 +37302,12 @@ var au = class {
         (o[c * 3 + 2] = h.spin));
     }
     (this.points.geometry.setDrawRange(0, s),
+      this.aPos.clearUpdateRanges?.(),
+      this.aCol.clearUpdateRanges?.(),
+      this.aSize.clearUpdateRanges?.(),
+      this.aPos.addUpdateRange?.(0, s * 3),
+      this.aCol.addUpdateRange?.(0, s * 4),
+      this.aSize.addUpdateRange?.(0, s * 3),
       (this.aPos.needsUpdate =
         this.aCol.needsUpdate =
         this.aSize.needsUpdate =
@@ -43975,6 +43989,7 @@ var dn = class {
   update(e, t) {
     let { N: i } = this;
     this.enterT += e;
+    this.fxIdle = this.celebrateT < 0 ? (this.fxIdle || 0) + e : 0;
     let s = Math.min(1, this.enterT / 0.55),
       r = 1 - Math.pow(1 - s, 3);
     if (
@@ -44151,7 +44166,26 @@ var dn = class {
           this.notes.setMatrix(v * this.n + Z - 1, a));
       }
     }
-    ((this.tiles.instanceMatrix.needsUpdate = !0),
+    let settled =
+      this.fxIdle > 2 &&
+      this.anim.every(
+        (w) =>
+          Math.abs(w.liftV) < 1e-4 &&
+          Math.abs(w.popV) < 1e-4 &&
+          w.wave <= 0 &&
+          w.shake <= 0 &&
+          w.lift === (w.liftT || 0),
+      );
+    if (settled) {
+      this.tiles.instanceMatrix.needsUpdate =
+        this.tiles.instanceColor.needsUpdate =
+        this.emis.needsUpdate =
+        this.digits.mesh.instanceMatrix.needsUpdate =
+        this.notes.mesh.instanceMatrix.needsUpdate =
+        this.marks.mesh.instanceMatrix.needsUpdate =
+          !1;
+    } else
+      ((this.tiles.instanceMatrix.needsUpdate = !0),
       (this.tiles.instanceColor.needsUpdate = !0),
       (this.emis.needsUpdate = !0),
       (this.digits.mesh.instanceMatrix.needsUpdate = !0),
@@ -53152,7 +53186,8 @@ var sT = (n, e, t) => 3 * ((n + e) % 3) + ((e + t) % 3) + 1,
     }
     update(e) {
       this.t += e;
-      let t = new Ae(),
+      let done = this.t > 1.4,
+        t = new Ae(),
         i = new pt(),
         s = new k(1, 1, 1),
         r = (a) => {
@@ -53162,7 +53197,7 @@ var sT = (n, e, t) => 3 * ((n + e) % 3) + ((e + t) % 3) + 1,
             ),
             l = 1 - Math.pow(1 - o, 4),
             c = 1 + (1 - l) * 4.5,
-            h = Math.sin(this.t * 0.8 + a.seed * 6) * 0.025;
+            h = done ? 0 : Math.sin(this.t * 0.8 + a.seed * 6) * 0.025;
           return a.p
             .clone()
             .multiplyScalar(c * 0.97)
@@ -53180,10 +53215,7 @@ var sT = (n, e, t) => 3 * ((n + e) % 3) + ((e + t) % 3) + 1,
         }),
         (this.solid.instanceMatrix.needsUpdate = !0),
         (this.glass.instanceMatrix.needsUpdate = !0),
-        (this.digits.mesh.instanceMatrix.needsUpdate = !0),
-        (this.group.rotation.y += e * 0.16),
-        (this.group.rotation.x = 0.62 + Math.sin(this.t * 0.3) * 0.06),
-        (this.group.position.y = Math.sin(this.t * 0.6) * 0.08));
+        (this.digits.mesh.instanceMatrix.needsUpdate = !0));
     }
     dispose() {
       (this.group.traverse((e) => e.geometry?.dispose()),
@@ -53199,7 +53231,9 @@ var Iu = class {
       t = e.store.s;
     (e.setRealm(0),
       (this.hero = new ku(e.stage, e.atlas)),
-      (this.off = e.stage.onTick((c) => this.hero.update(c))));
+      (this.off = e.stage.onTick((c) => {
+        this.hero.t < 1.5 && this.hero.update(c);
+      })));
     let i = !t.progress.levels["r1-1"]?.done,
       s = xu(t),
       r = hs(),
@@ -53843,6 +53877,11 @@ var Lu = class {
   }
   update(e) {
     this.t += e;
+    let live = this.tiles.some(
+      (h) => h.revealT != null || h.hopT != null || h.flareT != null,
+    );
+    this.mapTick = (this.mapTick || 0) + 1;
+    if (!live && this.mapTick % 2) return;
     let t = new Ae(),
       i = new pt(),
       s = new k(),
@@ -54014,7 +54053,9 @@ var rT = {
       ((this.map = new Lu(e.stage, e.atlas)),
         this.refreshState(),
         (this.off = e.stage.onTick((s) => {
-          (this.map.update(s), this.placeLabels());
+          (this.map.update(s),
+            (this.labelTick = (this.labelTick || 0) + 1) % 3 === 0 &&
+              this.placeLabels());
         })),
         (this.root = y("div", {
           class: "screen page map-screen",
@@ -55477,7 +55518,11 @@ var Kb = {
             return Math.max(0.08, Math.min(1, 1 - (d - i.fade) / 1.2));
           }),
           this.disposers.push(
-            e.stage.onTick(() => this.play.board.refreshGlyphs()),
+            e.stage.onTick((r, s) => {
+              this.play.board &&
+                (this.fadeTick = (this.fadeTick || 0) + s) > 0.12 &&
+                ((this.fadeTick = 0), this.play.board.refreshGlyphs());
+            }),
           )),
         i.notesBudget &&
           o("budget", ({ budget: h }) =>
@@ -55521,7 +55566,14 @@ var Kb = {
           (h && (this.lastProgress = performance.now()), this.hideStuck());
         }),
         o("change", () => this.checkSweep()),
-        this.disposers.push(e.stage.onTick(() => this.tick())),
+        this.disposers.push(
+          e.stage.onTick(() => {
+            let n = performance.now();
+            if (n - (this.lastTickAt || 0) < 500) return;
+            this.lastTickAt = n;
+            this.tick();
+          }),
+        ),
         (this.celebrated = new Set()),
         (this.prevValues = Uint8Array.from(a.values)),
         o("change", (h) => {

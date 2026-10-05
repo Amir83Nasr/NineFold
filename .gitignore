@@ -2,6 +2,8 @@
 # ─── RUNTIME / SESSION STATE ──────────────────────────────
 # local-only overrides (never commit)
 *.local
+# personal scratch notes (never commit)
+TODO.md
 
 # ─── LOGS / HISTORY / TELEMETRY ───────────────────────────
 *.log

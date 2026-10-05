@@ -490,8 +490,7 @@ button {
   max-height: 76px;
   border-radius: 14px;
   border: 1px solid var(--line);
-  background: linear-gradient(180deg, #28335cb8, #141a32c7);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(180deg, #28335c, #141a32);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5773,6 +5772,10 @@ html.reduce-motion #grain {
 }
 
 @media (pointer: coarse) {
+  #grain {
+    display: none;
+  }
+
   .glass,
   .tile-btn,
   .key,
