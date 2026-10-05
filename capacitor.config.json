@@ -2,9 +2,13 @@
   "appId": "com.ninefold.app",
   "appName": "NineFold",
   "webDir": "www",
+  "backgroundColor": "#070a14",
+  "android": {
+    "backgroundColor": "#070a14"
+  },
   "plugins": {
     "StatusBar": {
-      "overlaysWebView": false,
+      "overlaysWebView": true,
       "style": "DARK",
       "backgroundColor": "#070a14"
     }

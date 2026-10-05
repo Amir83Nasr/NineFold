@@ -34558,23 +34558,6 @@ var su = class {
       this.buildPuffs(),
       this.buildParticles(),
       (this.islands = new tu(e)),
-      (this.photoTex = null),
-      (this.photoMesh = null),
-      (this.photoWant = !1),
-      (this.photoA = 0),
-      new cr().load(
-        "assets/images/ninefold.jpg",
-        (t) => {
-          ((t.wrapS = os),
-            (t.wrapT = Gi),
-            (t.colorSpace = ts),
-            (t.anisotropy = 8),
-            (this.photoTex = t),
-            this.photoWant && this.applyPhoto());
-        },
-        void 0,
-        () => {},
-      ),
       this.stage.onTick((t, i) => this.update(t, i)));
   }
   buildSky() {
@@ -35057,36 +35040,12 @@ var su = class {
         }[s.shape] ?? 0,
     }),
       (this.realm = e),
-      (this.photoWant = e.key === "home"),
-      (this.group.visible = e.key !== "home"),
-      this.photoTex
-        ? this.applyPhoto()
-        : !this.photoWant && this.applyPhoto(),
       this.requestSkyArt(e, t),
       t
         ? (this.applyTarget(1),
           this.swapParticles(),
           (this.partU.uFade.value = 1))
         : (this.fadeT = 0));
-  }
-  applyPhoto() {
-    let e = this.photoTex,
-      t = this.stage.scene,
-      i = this.photoMesh;
-    if (!e || !this.photoWant || i) return;
-    let s = new gt({
-        map: e,
-        side: ai,
-        depthWrite: !1,
-        fog: !1,
-        toneMapped: !1,
-        transparent: !0,
-        opacity: 0,
-      });
-      ((i = this.photoMesh = new De(new Lo(600, 32, 16), s)),
-        (i.frustumCulled = !1),
-        (i.renderOrder = -9),
-        this.stage.scene.add(i));
   }
   loadHorizon(e) {
     return (
@@ -35264,13 +35223,6 @@ var su = class {
       this.sky.position.copy(this.stage.camera.position),
       (this.sea.position.x = this.stage.camera.position.x),
       (this.sea.position.z = this.stage.camera.position.z));
-    if (this.photoMesh) {
-      this.photoMesh.position.copy(this.stage.camera.position);
-      let s = this.photoWant ? 1 : 0;
-      ((this.photoA += (s - this.photoA) * Math.min(1, e * 1.4)),
-        (this.photoMesh.material.opacity = this.photoA),
-        (this.photoMesh.visible = this.photoA > 0.01));
-    }
     for (let r of this.puffs)
       ((r.position.x += r.userData.v * e * this.seaU.uSpeed.value),
         r.position.x > 90 && (r.position.x -= 180));
@@ -38594,14 +38546,12 @@ var yl = {
           }),
         ),
           document.addEventListener("visibilitychange", () => {
-            (this.ctx &&
-              (document.hidden ? this.ctx.suspend() : this.ctx.resume()),
-              this.syncBgm?.());
+            this.ctx &&
+              (document.hidden ? this.ctx.suspend() : this.ctx.resume());
           }),
           this.piano.load(),
           this.musicOn && this.startMusic(),
-          this.ambKey && this.setAmbience(this.ambKey),
-          this.syncBgm?.());
+          this.ambKey && this.setAmbience(this.ambKey));
       }
     }
     init(e) {
@@ -38705,22 +38655,7 @@ var yl = {
           vl(this.natureVol) * yl.nature,
           a,
           0.3,
-        ),
-        this.syncBgm());
-    }
-    syncBgm() {
-      let el = document.getElementById("bgm");
-      if (!el) return;
-      let ok =
-        this.musicOn &&
-        this.musicVol > 0 &&
-        !this.muted &&
-        !!this.ctx &&
-        !document.hidden;
-      (el.volume = vl(this.musicVol) * 0.6),
-        ok
-          ? el.paused && el.play().catch(() => {})
-          : !el.paused && el.pause();
+        ));
     }
     musicLevel() {
       return vl(this.musicVol) * yl.music;
@@ -39275,8 +39210,7 @@ var yl = {
       let e = this.ctx.currentTime;
       (this.music.gain.cancelScheduledValues(e),
         this.music.gain.setTargetAtTime(this.musicLevel(), e, 1.2),
-        this.applyScene(),
-        this.syncBgm());
+        this.applyScene());
     }
     ensurePiece() {
       let e = this.prof.pieces.join(",");
@@ -39432,7 +39366,6 @@ var yl = {
     }
     stopMusic() {
       ((this.musicOn = !1),
-        this.syncBgm(),
         this.ctx &&
           (this.music.gain.setTargetAtTime(0, this.ctx.currentTime, 0.6),
           setTimeout(() => {
@@ -52907,9 +52840,10 @@ var Cu = class {
   }
   syncStatusBar() {
     try {
-      window.capacitorStatusBar?.StatusBar?.setBackgroundColor?.({
-        color: "#070a14",
-      });
+      const sb = window.capacitorStatusBar?.StatusBar;
+      sb?.setOverlaysWebView?.({ overlay: true });
+      sb?.setBackgroundColor?.({ color: "#070a14" });
+      sb?.setStyle?.({ style: "DARK" });
     } catch {}
   }
   setRealm(e) {
@@ -53263,8 +53197,12 @@ var sT = (n, e, t) => 3 * ((n + e) % 3) + ((e + t) % 3) + 1,
     update(e) {
       this.t += e;
       if (!this.stage.reducedMotion) {
-        this.yaw += e * 0.6;
-        this.group.rotation.set(0.5, this.yaw, 0);
+        this.yaw += e * 0.15;
+        this.group.rotation.set(
+          0.5 + 0.35 * Math.sin(0.8 * this.t),
+          this.yaw,
+          0,
+        );
       }
       let done = this.t > 1.4,
         t = new Ae(),

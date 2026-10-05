@@ -1,5 +1,5 @@
 // ── CACHE / OFFLINE ────────────────────────────────────────────
-const CACHE = "ninefold-v3";
+const CACHE = "ninefold-v4";
 const ASSETS = [
   "./",
   "./index.html",
@@ -14,8 +14,6 @@ const ASSETS = [
   "./assets/icons/icon-1024.png",
   "./assets/fonts/outfit-var.woff2",
   "./assets/fonts/cinzel-var.woff2",
-  "./assets/images/ninefold.jpg",
-  "./assets/music/bgm.m4a",
 ];
 self.addEventListener("install", (e) => {
   e.waitUntil(
